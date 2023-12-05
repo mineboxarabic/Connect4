@@ -9,6 +9,8 @@ class ConnectFour {
     this.columns = 7;
     this.currColumns = new Array(this.columns).fill(this.rows - 1);
     this.winner = null;
+    this.reverseButton = document.getElementById("reverse");
+    this.reverseButton.addEventListener("click", this.reverse.bind(this));
   }
 
   setGame() {
@@ -30,36 +32,71 @@ class ConnectFour {
   }
 
   setPiece(event) {
-    if (this.gameOver) return;
-
-    let coords = event.target.id.split("-");
-    let c = parseInt(coords[1]);
-    let r = this.currColumns[c];
-
-    if (r < 0) return;
-
-    this.board[r][c] = this.currPlayer;
-    let tile = document.getElementById(r.toString() + "-" + c.toString());
-    if (this.currPlayer == this.playerRed) {
-      tile.classList.add("red-piece");
-      this.currPlayer = this.playerYellow;
-    } else {
-      tile.classList.add("yellow-piece");
-      this.currPlayer = this.playerRed;
+    if (this.gameOver) {
+      return;
     }
 
-    r -= 1;
-    this.currColumns[c] = r;
+    // Assuming this function is called by an event listener attached to column headers
+    const xy = event.target.id.split("-");
+    let columnIndex = parseInt(xy[1]);
 
-    this.checkWinner();
+    // Find the first available row from the bottom in the selected column
+    let rowIndex = this.findAvailableRow(columnIndex);
+    console.log(rowIndex);
+    if (rowIndex === -1) {
+      // Column is full
+      return;
+    }
+
+    // Create the piece element
+    let piece = document.createElement("div");
+    piece.classList.add("piece");
+    if (this.currPlayer === this.playerRed) {
+      piece.classList.add("red-piece");
+    } else {
+      piece.classList.add("yellow-piece");
+    }
+
+    // Append the piece to the board and apply the falling animation
+    let targetCell = document.getElementById(`${rowIndex}-${columnIndex}`);
+    console.log(targetCell);
+    targetCell.appendChild(piece);
+    piece.classList.add("falling-piece");
+
+    // Update the game board array
+    this.board[rowIndex][columnIndex] = this.currPlayer;
+
+    // Animation end event listener
+    piece.addEventListener("animationend", () => {
+      piece.classList.remove("falling-piece");
+      console.log(this.currPlayer);
+      // Check for a winner
+      if (this.checkWinner(rowIndex, columnIndex)) {
+        this.gameOver = true;
+        // Handle the win (show message, etc.)
+        return;
+      }
+    });
+
+    if (this.currPlayer === this.playerRed) {
+      this.currPlayer = this.playerYellow;
+    } else {
+      this.currPlayer = this.playerRed;
+    }
   }
-
+  findAvailableRow(columnIndex) {
+    for (let i = this.rows - 1; i >= 0; i--) {
+      if (this.board[i][columnIndex] === " ") {
+        return i;
+      }
+    }
+    return -1; // Column is full
+  }
   checkWinner() {
     this.checkWinnerHorizontalHelper();
     this.checkWinnerVerticalHelper();
     this.checkWinnerAntiDiagonalHelper();
     this.checkWinnerDiagonalHelper();
-
   }
 
   checkWinnerHorizontalHelper() {
@@ -148,6 +185,21 @@ class ConnectFour {
       this.winner = this.playerYellow;
     }
     this.gameOver = true;
+  }
+
+  reverse() {
+    let board = document.getElementById("board");
+    let children = board.childNodes;
+
+    let reversedVertically = [];
+
+    let rowsNumber = this.rows;
+
+
+
+
+    
+
   }
 }
 

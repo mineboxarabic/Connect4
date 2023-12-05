@@ -12,6 +12,8 @@ body {
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
+
+    z-index: 1;
 }
 
 .tile {
@@ -25,6 +27,18 @@ body {
     border: 5px solid navy;
 }
 
+.piece{
+    height: 70px;
+    width: 70px;
+    margin: -4px;
+
+    /* Circle */
+    background-color: white;
+    border-radius: 50%;
+    border: 5px solid navy;
+
+}
+
 .red-piece {
     background-color: red;
 }
@@ -32,3 +46,18 @@ body {
 .yellow-piece {
     background-color: yellow;
 }
+
+
+
+
+@keyframes fall {
+    0% { transform: translateY(-500%); }
+    100% { transform: translateY(0); }
+}
+
+.falling-piece {
+    animation: fall 0.5s ease-out; /* Adjust duration and easing as needed */
+
+}
+
+
