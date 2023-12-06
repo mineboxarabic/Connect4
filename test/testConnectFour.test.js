@@ -3,7 +3,24 @@ const { expect } = require('chai');
 const { JSDOM } = require('jsdom');
 
 
-const jsdom = new JSDOM('<!doctype html><html><body><div id="winner"></div><div id="board"></div></body></html>', { url: "http://localhost" });
+const jsdom = new JSDOM(`<!doctype html><html><body>
+
+<button id="reverse">reverse</button>
+<button id="reset">Reset</button>
+<h2 id="winner"></h2>
+<div id="board"></div>
+<div id="buttonContainer">
+    <button id="reverse-0" class="reverse">reverse</button>
+    <button id="reverse-1" class="reverse">reverse</button>
+    <button id="reverse-2" class="reverse">reverse</button>
+    <button id="reverse-3" class="reverse">reverse</button>
+    <button id="reverse-4" class="reverse">reverse</button>
+    <button id="reverse-5" class="reverse">reverse</button>
+    <button id="reverse-6" class="reverse">reverse</button>
+
+</div>
+
+</body></html>`, { url: "http://localhost" });
 const { window } = jsdom;
 
 // Define global variables to simulate a browser environment
@@ -140,4 +157,25 @@ describe('ConnectFour', () => {
     });
   });
 
+
+  describe('reverse collumn', () => {
+
+    it('should reverse the collumn', () => {
+        game.board[5][0] = game.playerRed; 
+        game.board[4][0] = game.playerYellow; 
+        game.board[3][0] = game.playerYellow; 
+        game.board[2][0] = game.playerRed; 
+        game.board[1][0] = game.playerRed; 
+        game.board[0][0] = game.playerRed; 
+
+        game.reverse();
+        expect(game.board[5][0]).to.equal(game.playerRed);
+        expect(game.board[4][0]).to.equal(game.playerRed);
+        expect(game.board[3][0]).to.equal(game.playerRed);
+        expect(game.board[2][0]).to.equal(game.playerYellow);
+        expect(game.board[1][0]).to.equal(game.playerYellow);
+        expect(game.board[0][0]).to.equal(game.playerRed);
+
+      });
+  })
 });

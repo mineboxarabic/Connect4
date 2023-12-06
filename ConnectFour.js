@@ -1,3 +1,4 @@
+
 class ConnectFour {
   constructor() {
     this.playerRed = "R";
@@ -9,8 +10,19 @@ class ConnectFour {
     this.columns = 7;
     this.currColumns = new Array(this.columns).fill(this.rows - 1);
     this.winner = null;
-    this.reverseButton = document.getElementById("reverse");
-    this.reverseButton.addEventListener("click", this.reverse.bind(this));
+    this.reverseIndex = 0;  
+
+
+
+    this.resetButton = document.getElementById("reset");
+    this.resetButton.addEventListener("click", this.reset.bind(this));
+
+
+    for(let i = 0; i < this.columns; i++) {
+      document.getElementById("reverse-" + i.toString()).addEventListener("click", () => { this.reverseIndex = i; this.reverse()} );
+    }
+    
+
   }
 
   setGame() {
@@ -80,8 +92,18 @@ class ConnectFour {
 
     if (this.currPlayer === this.playerRed) {
       this.currPlayer = this.playerYellow;
+      document.getElementById("player1").style.color = "black";
+      document.getElementById("player1").style.backgroundColor = "red"
+
+      document.getElementById("player2").style.color = "white";
+      document.getElementById("player2").style.backgroundColor = "#4CAF50";
     } else {
       this.currPlayer = this.playerRed;
+      document.getElementById("player2").style.color = "black";
+      document.getElementById("player2").style.backgroundColor = "red";
+    
+      document.getElementById("player1").style.color = "white";
+      document.getElementById("player1").style.backgroundColor = "#4CAF50";
     }
   }
   findAvailableRow(columnIndex) {
@@ -187,19 +209,71 @@ class ConnectFour {
     this.gameOver = true;
   }
 
+
+
+
+
+
   reverse() {
-    let board = document.getElementById("board");
-    let children = board.childNodes;
 
-    let reversedVertically = [];
+    if(this.gameOver) {
+      return;
+    }
 
-    let rowsNumber = this.rows;
+    // Choose a column to reverse, for example, the first column (index 0)
+    let columnIndex = this.reverseIndex;
+  
+    // Extract the pieces from the column, ignoring empty spaces
+    let pieces = [];
+    for (let r = 0; r < this.rows; r++) {
+      if (this.board[r][columnIndex] !== " ") {
+        pieces.push(this.board[r][columnIndex]);
+        this.board[r][columnIndex] = " "; // Clear the cell
+      }
+    }
+  
+    // Reverse the order of the pieces and let them "fall" to the bottom
+    pieces.reverse();
+    for (let r = this.rows - 1; r >= 0; r--) {
+      if (pieces.length > 0) {
+        this.board[r][columnIndex] = pieces.pop();
+      }
+    }
+  
+    // Update the DOM to reflect the new state
+    for (let r = 0; r < this.rows; r++) {
+      let cell = document.getElementById(r.toString() + "-" + columnIndex.toString());
+      if (cell) {
+        cell.innerHTML = ''; // Clear the existing piece
+        if (this.board[r][columnIndex] !== " ") {
+          let piece = document.createElement("div");
+          piece.classList.add("piece");
+          if (this.board[r][columnIndex] === this.playerRed) {
+            piece.classList.add("red-piece");
+          } else {
+            piece.classList.add("yellow-piece");
+          }
+          cell.appendChild(piece);
+        }
+      }
+    }
+    this.checkWinner();
+  }
+  
 
 
+
+  reset() {
+    let board = document.querySelector("#board")
+    board.innerHTML = "";
+    this.board = [];
+    this.gameOver = false;
+    this.currPlayer = this.playerRed;
+    this.winner = null;
 
 
     
-
+   this.setGame();
   }
 }
 
