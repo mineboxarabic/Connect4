@@ -4,19 +4,25 @@ const { JSDOM } = require('jsdom');
 
 
 const jsdom = new JSDOM(`<!doctype html><html><body>
-
-<button id="reverse">reverse</button>
+<div class="toolsContainer">
+<div>
+    <h1 id="player1">Player 1 (RED)</h1>
+</div>
 <button id="reset">Reset</button>
+<div>
+    <h1 id="player2">Player 2 (YELLOW)</h1>
+</div>        
+</div>
 <h2 id="winner"></h2>
 <div id="board"></div>
 <div id="buttonContainer">
-    <button id="reverse-0" class="reverse">reverse</button>
-    <button id="reverse-1" class="reverse">reverse</button>
-    <button id="reverse-2" class="reverse">reverse</button>
-    <button id="reverse-3" class="reverse">reverse</button>
-    <button id="reverse-4" class="reverse">reverse</button>
-    <button id="reverse-5" class="reverse">reverse</button>
-    <button id="reverse-6" class="reverse">reverse</button>
+<button id="reverse-0" class="reverse">reverse</button>
+<button id="reverse-1" class="reverse">reverse</button>
+<button id="reverse-2" class="reverse">reverse</button>
+<button id="reverse-3" class="reverse">reverse</button>
+<button id="reverse-4" class="reverse">reverse</button>
+<button id="reverse-5" class="reverse">reverse</button>
+<button id="reverse-6" class="reverse">reverse</button>
 
 </div>
 
