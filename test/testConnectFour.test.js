@@ -23,7 +23,7 @@ const jsdom = new JSDOM(`<!doctype html><html><body>
 <button id="reverse-4" class="reverse">reverse</button>
 <button id="reverse-5" class="reverse">reverse</button>
 <button id="reverse-6" class="reverse">reverse</button>
-
+z
 </div>
 
 </body></html>`, { url: "http://localhost" });
