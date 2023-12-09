@@ -11,7 +11,7 @@ const jsdom = new JSDOM(`<!doctype html><html><body>
 <button id="reset">Reset</button>
 <div>
     <h1 id="player2">Player 2 (YELLOW)</h1>
-</div>        
+</div>
 </div>
 <h2 id="winner"></h2>
 <div id="board"></div>
